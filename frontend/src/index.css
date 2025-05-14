@@ -1,1 +1,24 @@
 @import "tailwindcss";
+/* Add these to your CSS file */
+.program-sequence {
+  display: flex;  /* Arrange blocks horizontally */
+  flex-direction: column; /* stack it to column so we can use line */
+  align-items: center;   /* Center blocks horizontally */
+}
+
+.connection-line {
+  width: 2px;             /* Adjust thickness as needed */
+  height: 20px;            /* Adjust length as needed */
+  background-color: #ccc; /* Adjust color as needed */
+  margin-bottom: 5px;    /* Space between line and block */
+}
+
+.dropped-block {
+  width: 90%;          /* Reduce width of dropped blocks */
+  transition: width 0.3s ease; /* smooth transition */
+  border: 1px solid #ddd; /* add border */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* subtle shadow */
+  background-color: #f9f9f9; /* light background */
+  padding: 8px;           /* some padding */
+  margin-bottom: 8px;      /* space between blocks */
+}

@@ -9,28 +9,34 @@ app.use(cors());
 
 app.get('/find-bot', (req, res) => {
   console.log('🔍 /find-bot');
-  const browser = new dnssd.Browser(dnssd.tcp('CentoBot'));
+  const browser = new dnssd.Browser(dnssd.tcp('_CentoBot'));
   let responded = false; // Flag to check if we have received a response
-  browser.on('serviceUp', service => {
+ console.log(browser.on('serviceUp', service => {
     console.log(`Found service: ${service.name}`);
-
-  })
+    console.log(`Host: ${service.host}`);
+    console.log(`Port: ${service.port}`);
+    console.log(`Addresses: ${service.addresses.join(', ')}`); // This includes IPs
+  }
+ 
+    
+ ))
 
 
   browser.on('serviceUp', service => {
     if (!responded) { // Only respond once
       responded = true;
+      console.log('Service found:', service);
       console.log(`Found service: ${service.name}`);
       console.log(`Host: ${service.host}`);
       console.log(`Port: ${service.port}`);
-      console.log(`Addresses: ${service.addresses.join(', ')}`); // This includes IPs
+      console.log(`ip: ${service.addresses.join(', ')}`); // This includes IPs
 
       // Send response to client
       res.json({
         name: service.name,
         host: service.host,
         port: service.port,
-        addresses: service.addresses,
+        ip: service.addresses,
       });
 
       browser.stop(); // Stop searching after finding the first service
