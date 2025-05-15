@@ -18,47 +18,36 @@ function App() {
     isRunningRef.current = isRunning;
   }, [isRunning]);
 
-  const connectToROS = async () => {
+  const connectToROS = () => {
     setConnecting(true);
     setConnectionError(null);
-
-    try {
-      const response = await fetch('http://localhost:5001/find-bot');
-      const data = await response.json();
-      setBotIp(data.ip);
-      console.log('Found bot:', data);
-      
-      const rosConnection = new ROSLIB.Ros({
-        url: `ws:${data.ip}:9090`
-      });
-
-      rosConnection.on('connection', () => {
-        console.log('✅ Connected to ROS 2 websocket server.');
-        setRos(rosConnection);
-        setConnecting(false);
-        setConnectionError(null);
-      });
-
-      rosConnection.on('error', error => {
-        console.error('❌ Error connecting to websocket server:', error);
-        setConnectionError('Failed to connect to robot. Please check if the robot is powered on and try again.');
-        setConnecting(false);
-        setRos(null);
-      });
-
-      rosConnection.on('close', () => {
-        console.log('🔌 Connection to websocket server closed.');
-        setRos(null);
-        setConnectionError('Connection lost. Please try reconnecting.');
-        setConnecting(false);
-      });
-
-    } catch (error) {
-      console.error('❌ Failed to find bot:', error);
-      setConnectionError('Could not locate the robot. Please ensure it is on the network.');
+  
+    const rosConnection = new ROSLIB.Ros({
+      url: `ws://c20000002.local:9090`
+    });
+  
+    rosConnection.on('connection', () => {
+      console.log('✅ Connected to ROS 2 websocket server.');
+      setRos(rosConnection);
       setConnecting(false);
-    }
+      setConnectionError(null);
+    });
+  
+    rosConnection.on('error', error => {
+      console.error('❌ Error connecting to websocket server:', error);
+      setConnectionError('Failed to connect to robot. Please check if the robot is powered on and try again.');
+      setConnecting(false);
+      setRos(null);
+    });
+  
+    rosConnection.on('close', () => {
+      console.log('🔌 Connection to websocket server closed.');
+      setRos(null);
+      setConnectionError('Connection lost. Please try reconnecting.');
+      setConnecting(false);
+    });
   };
+  
 
   useEffect(() => {
     connectToROS();
@@ -306,8 +295,10 @@ function App() {
   };
 
   return (
+    
     <DndProvider backend={HTML5Backend}>
       <div className="min-h-screen bg-gray-50">
+        
         <div className="container mx-auto p-4 sm:p-6">
           {/* Header Section */}
           <div className="bg-white p-4 sm:p-6 rounded-xl shadow-md mb-4 sm:mb-6">
@@ -349,10 +340,7 @@ function App() {
                   </div>
                 ) : (
                   <div className="flex flex-col sm:flex-row gap-2 sm:gap-4 w-full">
-                    <div className="flex items-center gap-2 bg-gray-50 px-3 py-2 rounded-lg text-sm">
-                      <span className="text-gray-500">Bot IP:</span>
-                      <span className="font-medium">{botIp || 'Searching...'}</span>
-                    </div>
+                   
                     <div className="flex items-center gap-2 bg-gray-50 px-3 py-2 rounded-lg text-sm">
                       <span className="text-gray-500">Status:</span>
                       <span className={`font-medium ${ros ? 'text-green-500' : 'text-red-500'}`}>

@@ -1,6 +1,13 @@
 import React, { useState } from 'react';
 import { useDrag } from 'react-dnd';
 import { RiRobot2Line } from "react-icons/ri";
+import { IoHandLeftOutline } from "react-icons/io5";
+import { CiSettings } from "react-icons/ci";
+import { FaPersonWalking } from "react-icons/fa6";
+import { GiStoneBlock } from "react-icons/gi";
+
+
+
 
 const Block = ({ block, color }) => {
   const [{ isDragging }, drag] = useDrag(() => ({
@@ -13,8 +20,8 @@ const Block = ({ block, color }) => {
 
   const getCategoryIcon = (category) => {
     switch (category) {
-      case 'arm': return '👋';
-      case 'wheel': return '🚗';
+      case 'arm': return <IoHandLeftOutline/>;
+      case 'wheel': return <FaPersonWalking className='text-white' />;
       case 'control': return '⚙️';
       default: return '📦';
     }
@@ -79,7 +86,7 @@ const BlockPalette = () => {
   const categories = {
     arm: {
       name: 'Hand Movements',
-      icon: '👋',
+      icon: <IoHandLeftOutline/>,
       color: 'bg-gradient-to-r from-purple-600 to-purple-500',
       blocks: [
         { type: 'Hi', category: 'arm' },
@@ -106,8 +113,8 @@ const BlockPalette = () => {
     },
     control: {
       name: 'Control',
-      icon: '⚙️',
-      color: 'bg-gradient-to-r from-amber-500 to-amber-400',
+      icon: <CiSettings />,
+      color: 'bg-gradient-to-r from-amber-400 to-amber-400',
       blocks: [
         { type: 'Repeat', category: 'control', params: { times: 3 }, isContainer: true, children: [] },
         { type: 'Delay', category: 'control', params: { seconds: 1 } }
@@ -116,9 +123,9 @@ const BlockPalette = () => {
   };
 
   return (
-    <div className="bg-white rounded-xl shadow-md p-4 h-auto lg:h-[calc(100vh-180px)] overflow-y-auto">
+<div className="bg-white rounded-xl shadow-md p-4 max-h-[calc(100vh-180px)] overflow-y-auto hide-scrollbar">
       <h2 className="text-lg sm:text-xl font-bold mb-4 text-gray-800 flex items-center">
-        <span className="mr-2">📦</span> Block Palette
+        <span className="mr-2"><GiStoneBlock/></span> Block Palette
       </h2>
 
       {!selectedCategory ? (

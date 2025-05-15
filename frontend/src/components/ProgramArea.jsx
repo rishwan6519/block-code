@@ -1,6 +1,9 @@
 import React from 'react';
 import { useDrop } from 'react-dnd';
+import { IoHandLeftOutline } from 'react-icons/io5';
 import ROSLIB from 'roslib';
+import { FaPersonWalking } from "react-icons/fa6";
+
 
 const NestedBlock = ({ block, index, parentSequence, updateParent, isRunning, path = [] }) => {
   const [{ isOver }, drop] = useDrop(() => ({
@@ -32,9 +35,9 @@ const NestedBlock = ({ block, index, parentSequence, updateParent, isRunning, pa
   const getCategoryIcon = (category) => {
     switch (category) {
       case 'arm':
-        return '👋';
+        return <IoHandLeftOutline className="text-white" />;
       case 'wheel':
-        return '🚗';
+        return <FaPersonWalking className="text-white" />;
       case 'control':
         return '⚙️';
       default:
@@ -47,8 +50,8 @@ const NestedBlock = ({ block, index, parentSequence, updateParent, isRunning, pa
       case 'arm':
         return {
           bg: 'bg-gradient-to-r from-purple-600 to-purple-500',
-          border: 'border-purple-300',
-          highlight: 'bg-purple-400/20'
+          border: 'border-purple-100',
+          highlight: 'bg-purple-300/20'
         };
       case 'wheel':
         return {
@@ -58,7 +61,7 @@ const NestedBlock = ({ block, index, parentSequence, updateParent, isRunning, pa
         };
       case 'control':
         return {
-          bg: 'bg-gradient-to-r from-amber-500 to-amber-400',
+          bg: 'bg-gradient-to-r from-amber-400 to-amber-400',
           border: 'border-amber-300',
           highlight: 'bg-amber-400/20'
         };
@@ -80,9 +83,11 @@ const NestedBlock = ({ block, index, parentSequence, updateParent, isRunning, pa
     const index = currentPath.pop();
     updateParent(parentSequence, 'remove', currentPath, index);
   };
+  
 
   return (
-    <div className={`${colors.bg} rounded-lg shadow-md mb-3 overflow-hidden transition-all duration-200`}>
+    <div className={`${colors.bg} rounded-lg shadow-md mb-3 overflow-hidden transition-all duration-200 w-full max-w-[500px] mx-auto`}>
+
       <div className="p-3 text-white relative group">
         <div className="flex items-center">
           <span className="mr-2">{getCategoryIcon(block.category)}</span>
@@ -91,6 +96,7 @@ const NestedBlock = ({ block, index, parentSequence, updateParent, isRunning, pa
             <div key={key} className="flex items-center bg-white/20 mx-1 px-2 py-1 rounded-lg">
               <span className="text-sm mr-1">{key}:</span>
               <input
+              
   type="number"
   min={key === 'speed' ? 0.1 : key === 'angle' ? 1 : undefined}
   max={key === 'speed' ? 0.3 : key === 'angle' ? 360 : undefined}
