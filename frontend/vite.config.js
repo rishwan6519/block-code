@@ -2,22 +2,18 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
 
-// https://vite.dev/config/
 export default defineConfig({
   server: {
     proxy: {
-      '/find-bot': {
-        target: 'http://localhost:5000',
+      '/ws': {
+        target: 'ws://c20000002.local:9090', // your WebSocket server
+        ws: true,                            // enables websocket proxying
         changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/ws/, ''),
       },
     },
-    
     host: '0.0.0.0',
-     // or any port you want
+    allowedHosts: ['d52a-49-37-227-80.ngrok-free.app'], // only if needed for external access
   },
-
-  plugins: [react(),
-    tailwindcss(),
-
-  ],
+  plugins: [react(), tailwindcss()],
 })

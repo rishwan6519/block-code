@@ -23,7 +23,8 @@ function App() {
     setConnectionError(null);
   
     const rosConnection = new ROSLIB.Ros({
-      url: `ws://c20000002.local:9090`
+      url: `ws://c20000002.local:9090`,
+      
     });
   
     rosConnection.on('connection', () => {
@@ -297,7 +298,7 @@ function App() {
   return (
     
     <DndProvider backend={HTML5Backend}>
-      <div className="min-h-screen bg-gray-50">
+      <div className="min-h-screen bg-gray-50 font-[poppins]  ">
         
         <div className="container mx-auto p-4 sm:p-6">
           {/* Header Section */}
